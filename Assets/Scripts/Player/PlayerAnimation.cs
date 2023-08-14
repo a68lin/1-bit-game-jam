@@ -1,18 +1,22 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerAnimation : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    private Animator animator;
+    private int switchTriggerId;
+
+    private void Start()
     {
-        
+        animator = GetComponent<Animator>();
+
+        switchTriggerId = Animator.StringToHash("Switch");
     }
 
-    // Update is called once per frame
-    void Update()
+    public void Switch()
     {
-        
+        animator.SetTrigger(switchTriggerId);
     }
 }
