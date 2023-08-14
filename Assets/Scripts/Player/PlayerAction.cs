@@ -4,7 +4,23 @@ using UnityEngine;
 
 public class PlayerAction : MonoBehaviour
 {
-    public GameObject arrowPrefab;
+    [SerializeField]
+    private GameObject arrowPrefab;
+
+    private PlayerAnimation anim;
+
+    private void Start()
+    {
+        anim = GetComponent<PlayerAnimation>();
+    }
+
+    private void Update()
+    {
+        if (Input.GetButtonDown("Switch"))
+        {
+            anim.Switch();
+        }
+    }
 
     public void GenerateArrow(Vector3 pos)
     {
