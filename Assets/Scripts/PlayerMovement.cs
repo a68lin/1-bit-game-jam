@@ -2,34 +2,39 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEditor.PlayerSettings;
 
 public class PlayerMovement : MonoBehaviour
 {
-    // Start is called before the first frame update
-
+    [Header("Speed")]
     public float moveSpeed;
     public float rotateSpeed;
 
-    Rigidbody2D rb;
-    Vector2 moveDir;
+    private Rigidbody2D rb;
+    private Vector2 moveDir;
+    private PlayerAction action;
 
-    void Start()
+    private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        action = GetComponent<PlayerAction>();
+
+        // [TODO] For test purpose, need to be modified later
+        action.GenerateArrow(GameObject.Find("DummyPos").transform.position);
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
         inputManagement();
     }
 
-    void FixedUpdate()
+    private void FixedUpdate()
     {
         Move();
     }
 
-    void Move()
+    private void Move()
     {
         rb.velocity = new Vector2(moveDir.x * moveSpeed, moveDir.y * moveSpeed);
 
@@ -40,7 +45,7 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    void inputManagement()
+    private void inputManagement()
     {
         float moveX = Input.GetAxisRaw("Horizontal");
         float moveY = Input.GetAxisRaw("Vertical");
