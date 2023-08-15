@@ -4,15 +4,19 @@ using UnityEngine;
 
 public class Sign : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public string text;
+
+    private void Awake()
     {
-        
+
     }
 
-    // Update is called once per frame
-    void Update()
+    private void OnTriggerEnter2D(Collider2D other)
     {
-        
+        if (other.CompareTag("Player"))
+        {
+            Debug.Log(text);
+
+        }
     }
 }
