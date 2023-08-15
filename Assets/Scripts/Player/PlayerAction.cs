@@ -7,19 +7,34 @@ public class PlayerAction : MonoBehaviour
     [SerializeField]
     private GameObject arrowPrefab;
 
-    private PlayerAnimation anim;
+    [Header("Teleport")]
+    [Range(0, 3)]
+    public float teleportCD;
+
+    private PlayerMovement pMove;
+    private PlayerAnimation pAnim;
 
     private void Start()
     {
-        anim = GetComponent<PlayerAnimation>();
+        pMove = GetComponent<PlayerMovement>();
+        pAnim = GetComponent<PlayerAnimation>();
     }
 
     private void Update()
     {
-        if (Input.GetButtonDown("Switch"))
+        if (Input.GetKeyDown(KeyCode.Space))
         {
-            anim.Switch();
+            pAnim.Switch();
+            pMove.Teleport();
         }
+    }
+
+    private void FixedUpdate()
+    {
+        float moveX = Input.GetAxisRaw("Horizontal");
+        float moveY = Input.GetAxisRaw("Vertical");
+
+        pMove.Move(new Vector2(moveX, moveY).normalized);
     }
 
     public void GenerateArrow(Vector3 pos)

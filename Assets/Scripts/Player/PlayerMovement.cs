@@ -3,81 +3,51 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using static UnityEditor.PlayerSettings;
+using static UnityEngine.RuleTile.TilingRuleOutput;
 
 public class PlayerMovement : MonoBehaviour
 {
     [Header("Speed")]
     public float moveSpeed;
     public float rotateSpeed;
-    public float teleportCD;
 
     private Rigidbody2D rb;
-    private Vector2 moveDir;
-    private PlayerAction action;
-    private GameObject player;
-    private Vector2 teleportOffset;
+
     private bool stateIsLight;
+    private Vector3 teleportOffset;
 
     private void Start()
     {
         stateIsLight = true;
-        player = GameObject.Find("Player");
+
+        // [TODO] Don't use hard code, use the transform.position of tilemap
         teleportOffset = new Vector2((float)139.999909, (float)48.000009);
 
         rb = GetComponent<Rigidbody2D>();
-        action = GetComponent<PlayerAction>();
-
-        // [TODO] For test purpose, need to be modified later
-        action.GenerateArrow(GameObject.Find("DummyPos").transform.position);
     }
 
-    // Update is called once per frame
-    private void Update()
+    public void Move(Vector2 dir)
     {
-        inputManagement();
-        detectTeleport();
-    }
+        rb.velocity = new Vector2(dir.x * moveSpeed, dir.y * moveSpeed);
 
-    private void FixedUpdate()
-    {
-        Move();
-    }
-
-    private void Move()
-    {
-        rb.velocity = new Vector2(moveDir.x * moveSpeed, moveDir.y * moveSpeed);
-
-        if (moveDir != Vector2.zero)
+        if (dir != Vector2.zero)
         {
-            Quaternion toRotation = Quaternion.LookRotation(Vector3.forward, moveDir);
+            Quaternion toRotation = Quaternion.LookRotation(Vector3.forward, dir);
             transform.rotation = Quaternion.RotateTowards(transform.rotation, toRotation, rotateSpeed * Time.deltaTime);
         }
     }
 
-    private void inputManagement()
+    public void Teleport()
     {
-        float moveX = Input.GetAxisRaw("Horizontal");
-        float moveY = Input.GetAxisRaw("Vertical");
-
-        moveDir = new Vector2(moveX, moveY).normalized;
-    }
-
-    private void detectTeleport()
-    {
-        if (Input.GetKeyDown("space"))
+        if (stateIsLight)
         {
-            Vector3 newPosition;
-            if (stateIsLight)
-            {
-                newPosition = new Vector3(player.transform.position.x + teleportOffset.x, player.transform.position.y + teleportOffset.y, player.transform.position.z);
-            } 
-            else
-            {
-                newPosition = new Vector3(player.transform.position.x - teleportOffset.x, player.transform.position.y - teleportOffset.y, player.transform.position.z);
-            }
-
-            player.transform.position = newPosition;
-            stateIsLight = !stateIsLight;
+            transform.position += teleportOffset;
         }
+        else
+        {
+            transform.position -= teleportOffset;
+        }
+
+        stateIsLight = !stateIsLight;
     }
 }
