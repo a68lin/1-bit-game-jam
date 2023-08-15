@@ -7,19 +7,39 @@ public class PlayerAction : MonoBehaviour
     [SerializeField]
     private GameObject arrowPrefab;
 
-    private PlayerAnimation anim;
+    [Header("Switch")]
+    [Range(0, 10)]
+    public float switchCD;
+    private float lastSwitchTime;
+
+    private PlayerMovement pMove;
+    private PlayerAnimation pAnim;
 
     private void Start()
     {
-        anim = GetComponent<PlayerAnimation>();
+        pMove = GetComponent<PlayerMovement>();
+        pAnim = GetComponent<PlayerAnimation>();
     }
 
     private void Update()
     {
-        if (Input.GetButtonDown("Switch"))
+        
+
+        if (Input.GetKeyDown(KeyCode.Space) && Time.time - lastSwitchTime >= switchCD)
         {
-            anim.Switch();
+            pAnim.Switch();
+            pMove.Teleport();
+
+            lastSwitchTime = Time.time;
         }
+    }
+
+    private void FixedUpdate()
+    {
+        float moveX = Input.GetAxisRaw("Horizontal");
+        float moveY = Input.GetAxisRaw("Vertical");
+
+        pMove.Move(new Vector2(moveX, moveY).normalized);
     }
 
     public void GenerateArrow(Vector3 pos)
