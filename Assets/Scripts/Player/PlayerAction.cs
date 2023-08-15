@@ -7,9 +7,10 @@ public class PlayerAction : MonoBehaviour
     [SerializeField]
     private GameObject arrowPrefab;
 
-    [Header("Teleport")]
-    [Range(0, 3)]
-    public float teleportCD;
+    [Header("Switch")]
+    [Range(0, 10)]
+    public float switchCD;
+    private float lastSwitchTime;
 
     private PlayerMovement pMove;
     private PlayerAnimation pAnim;
@@ -22,10 +23,14 @@ public class PlayerAction : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        
+
+        if (Input.GetKeyDown(KeyCode.Space) && Time.time - lastSwitchTime >= switchCD)
         {
             pAnim.Switch();
             pMove.Teleport();
+
+            lastSwitchTime = Time.time;
         }
     }
 

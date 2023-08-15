@@ -20,7 +20,7 @@ public class PlayerMovement : MonoBehaviour
     {
         stateIsLight = true;
 
-        // [TODO] Don't use hard code, use the transform.position of tilemap
+        // [TODO] Don't use hard code, use the transform.position of Tilemap
         teleportOffset = new Vector2((float)139.999909, (float)48.000009);
 
         rb = GetComponent<Rigidbody2D>();
