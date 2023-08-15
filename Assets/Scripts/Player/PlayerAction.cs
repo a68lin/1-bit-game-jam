@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class PlayerAction : MonoBehaviour
 {
-    [SerializeField]
-    private GameObject arrowPrefab;
+    public GameObject arrowPrefab;
 
     [Header("Switch")]
     [Range(0, 10)]
@@ -23,8 +22,6 @@ public class PlayerAction : MonoBehaviour
 
     private void Update()
     {
-        
-
         if (Input.GetKeyDown(KeyCode.Space) && Time.time - lastSwitchTime >= switchCD)
         {
             pAnim.Switch();

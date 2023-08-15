@@ -5,7 +5,10 @@ using UnityEngine;
 public class Sign : MonoBehaviour
 {
     public string text;
+
+    [Header("Fixed Assets")]
     public Sprite usedSignSprite;
+    public GameObject target;
 
     private PlayerAction pAction; 
     private SpriteRenderer spriteRenderer;
@@ -38,7 +41,7 @@ public class Sign : MonoBehaviour
             Debug.Log(text);
 
             // Generate Arrow
-            Vector3 targetPos = transform.Find("Target").position;
+            Vector3 targetPos = target.transform.position;
             pAction.GenerateArrow(targetPos);
 
             // Set <Used>
