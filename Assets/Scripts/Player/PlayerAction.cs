@@ -20,6 +20,10 @@ public class PlayerAction : MonoBehaviour
         pMove = GetComponent<PlayerMovement>();
         pAnim = GetComponent<PlayerAnimation>();
         map = GameObject.FindWithTag("Maps").GetComponent<MapEditor>();
+
+        map.InitMapSets();
+        Vector3 startPos = map.UseMapSet(0);
+        pMove.Init(startPos);
     }
 
     private void Update()
@@ -49,7 +53,9 @@ public class PlayerAction : MonoBehaviour
     public void SwitchState()
     {
         pAnim.Switch();
-        pMove.Teleport(map.GetCurrentOffset());
+
+        Vector3 teleportOffset = map.SwitchToNextMap();
+        pMove.Teleport(teleportOffset);
 
         lastSwitchTime = Time.time;
     }

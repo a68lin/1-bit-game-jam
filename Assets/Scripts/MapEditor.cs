@@ -5,36 +5,107 @@ using UnityEngine.Tilemaps;
 
 using Normalmap = System.Collections.Generic.List<System.Collections.Generic.List<int>>;
 
+public class MapModel
+{
+    public string name;
+    public Tilemap map;
+    public TileBase tile;
+    public Vector3 offsetFromOrigin;
+    public Vector3 offsetToNextMap;
+
+    public MapModel(string name, Tilemap map, TileBase tile, Vector3 offsetFromOrigin, Vector3 offsetToNextMap)
+    {
+        this.name = name;
+        this.map = map;
+        this.tile = tile;
+        this.offsetFromOrigin = offsetFromOrigin;
+        this.offsetToNextMap = offsetToNextMap;
+    }
+}
+
+public class MapModelSet
+{
+    public List<MapModel> mapModels;
+    public Vector3 startPos;
+
+    public MapModelSet(List<MapModel> mapModels, Vector3 startPos)
+    {
+        this.mapModels = mapModels;
+        this.startPos = startPos;
+    }
+}
+
 public class MapEditor : MonoBehaviour
 {
-    private class MapModel
-    {
-        private Normalmap normalMap;
-        private Vector3 offset;
-    }
-
-    public Tilemap[] baseTilemaps;
-    public TileBase[] baseTiles;
-
+    // Default offset between different map models
     public Vector3 defaultOffset;
 
-    private MapModel[] Maps;
+    // Assets
+    public List<Tilemap> baseTilemaps;
+    public List<TileBase> baseTiles;
 
-    private Tilemap dummyTilemapPrefab;
+    // Map model set
+    private List<MapModelSet> mapModelSet;
+    private int currentMapIndex = 0;
+    private int currentSetIndex;
 
     private void Awake()
     {
-        dummyTilemapPrefab = baseTilemaps[0];
+        mapModelSet = new List<MapModelSet>();
     }
 
-    private void Start()
+    public void InitMapSets()
     {
-        // [TODO]
-        Normalmap normalmap = TilemapToNormalmap(baseTilemaps[0]);
+        List<MapModel> set0 = new List<MapModel>();
+        set0.Add(new MapModel("LightMap", baseTilemaps[0], baseTiles[0], Vector3.zero, defaultOffset));
+        set0.Add(new MapModel("DarkMap", baseTilemaps[1], baseTiles[1], defaultOffset, -defaultOffset));
+        mapModelSet.Add(new MapModelSet(set0, new Vector3(22, 1, 0)));
+    }
 
-        Tilemap testCopy1 = NormalmapToTilemap(normalmap, baseTiles[0]);
-        testCopy1.transform.parent = transform;
-        testCopy1.name = "Test";
+    public Vector3 UseMapSet(int index)
+    {
+        currentSetIndex = index;
+        foreach (MapModel model in mapModelSet[index].mapModels)
+        {
+            Tilemap tmp = MapModelToTilemap(model);
+            tmp.transform.parent = transform;
+            tmp.transform.position += model.offsetFromOrigin;
+            tmp.name = model.name;
+        }
+        return mapModelSet[index].startPos;
+    }
+    
+    public Vector3 SwitchToNextMap()
+    {
+        MapModelSet currentSet = mapModelSet[currentSetIndex];
+        MapModel currentMap = currentSet.mapModels[currentMapIndex];
+        currentMapIndex = (currentMapIndex + 1) % currentSet.mapModels.Count;
+
+        return currentMap.offsetToNextMap;
+    }
+
+    private Tilemap MapModelToTilemap(MapModel model)
+    {
+        Tilemap tilemap = Instantiate(model.map, transform.position, Quaternion.identity);
+        tilemap.ClearAllTiles();
+
+        Normalmap normalmap = TilemapToNormalmap(model.map);
+
+        int rows = normalmap.Count;
+        int cols = normalmap[0].Count;
+
+        for (int r = 0; r < rows; ++r)
+        {
+            for (int c = 0; c < cols; ++c)
+            {
+                if (normalmap[r][c] == 1)
+                {
+                    tilemap.SetTile(new Vector3Int(c, r, 0), model.tile);
+                }
+            }
+        }
+
+        return tilemap;
     }
 
     private Normalmap TilemapToNormalmap(Tilemap tilemap)
@@ -68,32 +139,5 @@ public class MapEditor : MonoBehaviour
         }
 
         return normalmap;
-    }
-
-    private Tilemap NormalmapToTilemap(Normalmap normalmap, TileBase tile)
-    {
-        Tilemap tilemap = Instantiate(dummyTilemapPrefab, transform.position, Quaternion.identity);
-        tilemap.ClearAllTiles();
-        
-        int rows = normalmap.Count;
-        int cols = normalmap[0].Count;
-
-        for (int r = 0; r < rows; ++r)
-        {
-            for (int c = 0; c < cols; ++c)
-            {
-                if (normalmap[r][c] == 1)
-                {
-                    tilemap.SetTile(new Vector3Int(c, r, 0), tile);
-                }
-            }
-        }
-
-        return tilemap;
-    }
-
-    public Vector3 GetCurrentOffset()
-    {
-        return defaultOffset;
     }
 }
