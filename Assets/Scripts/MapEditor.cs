@@ -44,14 +44,16 @@ public class MapEditor : MonoBehaviour
     public List<Tilemap> baseTilemaps;
     public List<TileBase> baseTiles;
 
-    // Map model set
+    // Map set
     private List<MapModelSet> mapModelSet;
+    private List<Tilemap> tilemapSet;
     private int currentMapIndex = 0;
     private int currentSetIndex;
 
     private void Awake()
     {
         mapModelSet = new List<MapModelSet>();
+        tilemapSet = new List<Tilemap>();
     }
 
     public void InitMapSets()
@@ -64,6 +66,14 @@ public class MapEditor : MonoBehaviour
 
     public Vector3 UseMapSet(int index)
     {
+        // Clear current maps
+        foreach (Transform child in transform)
+        {
+            Destroy(child.gameObject);
+        }
+        tilemapSet.Clear();
+
+        // Use appropriate map set
         currentSetIndex = index;
         foreach (MapModel model in mapModelSet[index].mapModels)
         {
@@ -71,17 +81,27 @@ public class MapEditor : MonoBehaviour
             tmp.transform.parent = transform;
             tmp.transform.position += model.offsetFromOrigin;
             tmp.name = model.name;
+            tilemapSet.Add(tmp);
         }
         return mapModelSet[index].startPos;
     }
     
-    public Vector3 SwitchToNextMap()
+    public bool SwitchToNextMap(Vector3 curPos, out Vector3 nextPos)
     {
         MapModelSet currentSet = mapModelSet[currentSetIndex];
         MapModel currentMap = currentSet.mapModels[currentMapIndex];
-        currentMapIndex = (currentMapIndex + 1) % currentSet.mapModels.Count;
 
-        return currentMap.offsetToNextMap;
+        int nextMapIndex = (currentMapIndex + 1) % currentSet.mapModels.Count;
+        Tilemap nextMap = tilemapSet[nextMapIndex];
+        nextPos = curPos + currentMap.offsetToNextMap;
+
+        if (nextMap.GetTile(nextMap.WorldToCell(nextPos)) == null)
+        {
+            currentMapIndex = nextMapIndex;
+            return true;
+        }
+
+        return false;
     }
 
     private Tilemap MapModelToTilemap(MapModel model)

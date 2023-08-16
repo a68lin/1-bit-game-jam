@@ -23,7 +23,7 @@ public class PlayerAction : MonoBehaviour
 
         map.InitMapSets();
         Vector3 startPos = map.UseMapSet(0);
-        pMove.Init(startPos);
+        pMove.MoveTo(startPos);
     }
 
     private void Update()
@@ -52,10 +52,17 @@ public class PlayerAction : MonoBehaviour
 
     public void SwitchState()
     {
-        pAnim.Switch();
-
-        Vector3 teleportOffset = map.SwitchToNextMap();
-        pMove.Teleport(teleportOffset);
+        Vector3 nextPos;
+        if (map.SwitchToNextMap(transform.position, out nextPos))
+        {
+            pAnim.Switch();
+            pMove.MoveTo(nextPos);
+        }
+        else
+        {
+            Debug.Log("Blocked by the wall.");
+            // ShowDialog("Blocked by the wall.")
+        }
 
         lastSwitchTime = Time.time;
     }

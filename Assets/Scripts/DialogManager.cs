@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class DialogManager : MonoBehaviour
 {
     public Text message;
+
     [Header("Remaining time")]
     [Range(0, 20)]
     private float timeToAppear = 5f;
@@ -15,6 +16,14 @@ public class DialogManager : MonoBehaviour
     //{
     //    ShowDialog("Correct direction!");
     //}
+
+    private void Update()
+    {
+        if (message.enabled && (Time.time >= timeWhenDisappear))
+        {
+            message.enabled = false;
+        }
+    }
 
     private void EnableText()
     {
@@ -33,13 +42,5 @@ public class DialogManager : MonoBehaviour
         RectTransform rt = message.GetComponent<RectTransform>();
         rt.anchoredPosition3D = new Vector3(0, 70, 0);
         rt.sizeDelta = new Vector2(1000, 50);
-    }
-
-    private void Update()
-    {
-        if (message.enabled && (Time.time >= timeWhenDisappear))
-        {
-            message.enabled = false;
-        }
     }
 }
