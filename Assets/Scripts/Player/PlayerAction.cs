@@ -1,9 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 public class PlayerAction : MonoBehaviour
 {
+    public GameObject flagPrefab;
+
     [Header("Switch")]
     [Range(0, 10)]
     public float switchCD;
@@ -13,6 +16,7 @@ public class PlayerAction : MonoBehaviour
     private PlayerAnimation pAnim;
     private PlayerArrows pArrows;
     private MapEditor map;
+    private GameObject flag;
 
     private void Start()
     {
@@ -32,6 +36,15 @@ public class PlayerAction : MonoBehaviour
         {
             SwitchState();
         }
+
+        if (Input.GetKeyDown(KeyCode.Q)) {
+            Save();
+        }
+
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            Load();
+        }
     }
 
     private void FixedUpdate()
@@ -42,7 +55,7 @@ public class PlayerAction : MonoBehaviour
         pMove.Move(new Vector2(moveX, moveY).normalized);
     }
 
-    public void SwitchState()
+    private void SwitchState()
     {
         Vector3 curPos = transform.position;
         Vector3 offset;
@@ -59,5 +72,25 @@ public class PlayerAction : MonoBehaviour
             Debug.Log("Blocked by the wall.");
             // ShowDialog("Blocked by the wall.")
         }
+    }
+
+    private void Save()
+    {
+        Debug.Log("Save");
+        if (flag == null)
+        {
+            flag = Instantiate(flagPrefab, transform.position, Quaternion.identity);
+        }
+        else
+        {
+            flag.transform.position = transform.position;
+        }
+
+    }
+
+    private void Load()
+    {
+        Debug.Log("Load");
+        pMove.MoveTo(flag.transform.position);
     }
 }

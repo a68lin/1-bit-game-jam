@@ -288,6 +288,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b2a083aee8e92240aec2c6df7d6b824, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  flagPrefab: {fileID: 4447899799287463543, guid: 899cf5a11291f0a42997305d8e013e33, type: 3}
   switchCD: 0
 --- !u!114 &269992111
 MonoBehaviour:
