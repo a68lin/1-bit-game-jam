@@ -288,7 +288,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   arrowPrefab: {fileID: 2434391590919398686, guid: 6125252dbeaa62648b063e6f68bd7bbe, type: 3}
-  switchCD: 3
+  switchCD: 0
 --- !u!114 &269992111
 MonoBehaviour:
   m_ObjectHideFlags: 0

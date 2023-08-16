@@ -18,11 +18,6 @@ public class PlayerMovement : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
     }
 
-    public void Init(Vector3 pos)
-    {
-        transform.position = pos;
-    }
-
     public void Move(Vector2 dir)
     {
         rb.velocity = new Vector2(dir.x * moveSpeed, dir.y * moveSpeed);
@@ -34,8 +29,8 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    public void Teleport(Vector3 offset)
+    public void MoveTo(Vector3 pos)
     {
-        transform.position += offset;
+        transform.position = pos;
     }
 }
