@@ -139,6 +139,7 @@ GameObject:
   - component: {fileID: 269992111}
   - component: {fileID: 269992110}
   - component: {fileID: 269992113}
+  - component: {fileID: 269992114}
   m_Layer: 3
   m_Name: Player
   m_TagString: Player
@@ -287,7 +288,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b2a083aee8e92240aec2c6df7d6b824, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  arrowPrefab: {fileID: 2434391590919398686, guid: 6125252dbeaa62648b063e6f68bd7bbe, type: 3}
   switchCD: 0
 --- !u!114 &269992111
 MonoBehaviour:
@@ -336,6 +336,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 679fcac760e5eef4d8d1b13b3e8a1a0e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &269992114
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 269992103}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a22521046ca879640a3847b865da49d5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  arrowPrefab: {fileID: 2434391590919398686, guid: 6125252dbeaa62648b063e6f68bd7bbe, type: 3}
 --- !u!1 &518233656
 GameObject:
   m_ObjectHideFlags: 0
