@@ -86,16 +86,16 @@ public class MapEditor : MonoBehaviour
         return mapModelSet[index].startPos;
     }
     
-    public bool SwitchToNextMap(Vector3 curPos, out Vector3 nextPos)
+    public bool SwitchToNextMap(Vector3 curPos, out Vector3 offset)
     {
         MapModelSet currentSet = mapModelSet[currentSetIndex];
         MapModel currentMap = currentSet.mapModels[currentMapIndex];
 
         int nextMapIndex = (currentMapIndex + 1) % currentSet.mapModels.Count;
         Tilemap nextMap = tilemapSet[nextMapIndex];
-        nextPos = curPos + currentMap.offsetToNextMap;
+        offset = currentMap.offsetToNextMap;
 
-        if (nextMap.GetTile(nextMap.WorldToCell(nextPos)) == null)
+        if (nextMap.GetTile(nextMap.WorldToCell(curPos + offset)) == null)
         {
             currentMapIndex = nextMapIndex;
             return true;
