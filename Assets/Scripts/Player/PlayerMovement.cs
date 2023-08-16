@@ -13,16 +13,8 @@ public class PlayerMovement : MonoBehaviour
 
     private Rigidbody2D rb;
 
-    private bool stateIsLight;
-    private Vector3 teleportOffset;
-
     private void Start()
     {
-        stateIsLight = true;
-
-        // [TODO] Don't use hard code, use the transform.position of Tilemap
-        teleportOffset = new Vector2((float)139.999909, (float)48.000009);
-
         rb = GetComponent<Rigidbody2D>();
     }
 
@@ -37,17 +29,8 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    public void Teleport()
+    public void Teleport(Vector3 offset)
     {
-        if (stateIsLight)
-        {
-            transform.position += teleportOffset;
-        }
-        else
-        {
-            transform.position -= teleportOffset;
-        }
-
-        stateIsLight = !stateIsLight;
+        transform.position += offset;
     }
 }

@@ -13,21 +13,20 @@ public class PlayerAction : MonoBehaviour
 
     private PlayerMovement pMove;
     private PlayerAnimation pAnim;
+    private MapEditor map;
 
     private void Start()
     {
         pMove = GetComponent<PlayerMovement>();
         pAnim = GetComponent<PlayerAnimation>();
+        map = GameObject.FindWithTag("Maps").GetComponent<MapEditor>();
     }
 
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Space) && Time.time - lastSwitchTime >= switchCD)
         {
-            pAnim.Switch();
-            pMove.Teleport();
-
-            lastSwitchTime = Time.time;
+            SwitchState();
         }
     }
 
@@ -45,5 +44,13 @@ public class PlayerAction : MonoBehaviour
         arrowObject.transform.SetParent(transform);
         Arrow arrow = arrowObject.GetComponent<Arrow>();
         arrow.SetTargetPos(pos);
+    }
+
+    public void SwitchState()
+    {
+        pAnim.Switch();
+        pMove.Teleport(map.GetCurrentOffset());
+
+        lastSwitchTime = Time.time;
     }
 }
