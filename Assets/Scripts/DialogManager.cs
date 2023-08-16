@@ -12,11 +12,6 @@ public class DialogManager : MonoBehaviour
     private float timeToAppear = 5f;
     private float timeWhenDisappear;
 
-    //private void Start()
-    //{
-    //    ShowDialog("Correct direction!");
-    //}
-
     private void Update()
     {
         if (message.enabled && (Time.time >= timeWhenDisappear))
