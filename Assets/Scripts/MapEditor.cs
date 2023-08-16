@@ -50,6 +50,11 @@ public class MapEditor : MonoBehaviour
     private int currentMapIndex = 0;
     private int currentSetIndex;
 
+    // Flag
+    public GameObject flagPrefab;
+    private GameObject flag;
+    private int flagMapIndex;
+
     private void Awake()
     {
         mapModelSet = new List<MapModelSet>();
@@ -102,6 +107,26 @@ public class MapEditor : MonoBehaviour
         }
 
         return false;
+    }
+
+    public void SetFlag(Vector3 pos)
+    {
+        if (flag == null)
+        {
+            flag = Instantiate(flagPrefab, pos, Quaternion.identity);
+        }
+        else
+        {
+            flag.transform.position = pos;
+        }
+
+        flagMapIndex = currentMapIndex;
+    }
+
+    public Vector3 SwitchToFlag()
+    {
+        currentMapIndex = flagMapIndex;
+        return flag.transform.position;
     }
 
     private Tilemap MapModelToTilemap(MapModel model)
