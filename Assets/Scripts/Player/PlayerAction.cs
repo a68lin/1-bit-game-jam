@@ -7,6 +7,7 @@ public class PlayerAction : MonoBehaviour
     [Header("Switch")]
     [Range(0, 10)]
     public float switchCD;
+    public DialogManager dialog;
     private float lastSwitchTime;
 
     private PlayerMovement pMove;
@@ -57,7 +58,7 @@ public class PlayerAction : MonoBehaviour
         else
         {
             Debug.Log("Blocked by the wall.");
-            // ShowDialog("Blocked by the wall.")
+            dialog.ShowDialog("Blocked by the wall.");
         }
     }
 }
