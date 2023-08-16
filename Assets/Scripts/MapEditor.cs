@@ -61,7 +61,7 @@ public class MapEditor : MonoBehaviour
         List<MapModel> set0 = new List<MapModel>();
         set0.Add(new MapModel("LightMap", baseTilemaps[0], baseTiles[0], Vector3.zero, defaultOffset));
         set0.Add(new MapModel("DarkMap", baseTilemaps[1], baseTiles[1], defaultOffset, -defaultOffset));
-        mapModelSet.Add(new MapModelSet(set0, new Vector3(22, 1, 0)));
+        mapModelSet.Add(new MapModelSet(set0, new Vector3((float)105.5, (float)1.4, 0)));
     }
 
     public Vector3 UseMapSet(int index)
