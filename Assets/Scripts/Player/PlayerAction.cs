@@ -5,8 +5,6 @@ using UnityEngine;
 
 public class PlayerAction : MonoBehaviour
 {
-    public GameObject flagPrefab;
-
     [Header("Switch")]
     [Range(0, 10)]
     public float switchCD;
@@ -16,7 +14,6 @@ public class PlayerAction : MonoBehaviour
     private PlayerAnimation pAnim;
     private PlayerArrows pArrows;
     private MapEditor map;
-    private GameObject flag;
 
     private void Start()
     {
@@ -77,20 +74,12 @@ public class PlayerAction : MonoBehaviour
     private void Save()
     {
         Debug.Log("Save");
-        if (flag == null)
-        {
-            flag = Instantiate(flagPrefab, transform.position, Quaternion.identity);
-        }
-        else
-        {
-            flag.transform.position = transform.position;
-        }
-
+        map.SetFlag(transform.position);
     }
 
     private void Load()
     {
         Debug.Log("Load");
-        pMove.MoveTo(flag.transform.position);
+        pMove.MoveTo(map.SwitchToFlag());
     }
 }
