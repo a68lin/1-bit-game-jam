@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UIElements;
+using static UnityEditor.PlayerSettings;
 
 public class Arrow : MonoBehaviour
 {
@@ -39,6 +40,11 @@ public class Arrow : MonoBehaviour
     {
         targetPos = pos;
         gameObject.SetActive(true);
+    }
+
+    public void UpdateTargetPos(Vector3 offset)
+    {
+        targetPos += offset;
     }
 
     private void startTracking()

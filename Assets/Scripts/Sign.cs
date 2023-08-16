@@ -10,7 +10,7 @@ public class Sign : MonoBehaviour
     public Sprite usedSignSprite;
     public GameObject target;
 
-    private PlayerAction pAction; 
+    private PlayerArrows pArrows; 
     private SpriteRenderer spriteRenderer;
 
     private bool isTriggered;
@@ -19,7 +19,7 @@ public class Sign : MonoBehaviour
     {
         isTriggered = false;
 
-        pAction = GameObject.FindWithTag("Player").GetComponent<PlayerAction>();
+        pArrows = GameObject.FindWithTag("Player").GetComponent<PlayerArrows>();
         spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
@@ -42,7 +42,7 @@ public class Sign : MonoBehaviour
 
             // Generate Arrow
             Vector3 targetPos = target.transform.position;
-            pAction.GenerateArrow(targetPos);
+            pArrows.GenerateArrow(targetPos);
 
             // Set <Used>
             spriteRenderer.sprite = usedSignSprite;

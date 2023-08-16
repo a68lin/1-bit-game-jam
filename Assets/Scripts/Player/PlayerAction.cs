@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class PlayerAction : MonoBehaviour
 {
-    public GameObject arrowPrefab;
-
     [Header("Switch")]
     [Range(0, 10)]
     public float switchCD;
@@ -13,12 +11,14 @@ public class PlayerAction : MonoBehaviour
 
     private PlayerMovement pMove;
     private PlayerAnimation pAnim;
+    private PlayerArrows pArrows;
     private MapEditor map;
 
     private void Start()
     {
         pMove = GetComponent<PlayerMovement>();
         pAnim = GetComponent<PlayerAnimation>();
+        pArrows = GetComponent<PlayerArrows>();
         map = GameObject.FindWithTag("Maps").GetComponent<MapEditor>();
 
         map.InitMapSets();
@@ -42,28 +42,22 @@ public class PlayerAction : MonoBehaviour
         pMove.Move(new Vector2(moveX, moveY).normalized);
     }
 
-    public void GenerateArrow(Vector3 pos)
-    {
-        GameObject arrowObject = Instantiate(arrowPrefab, Vector3.zero, Quaternion.identity);
-        arrowObject.transform.SetParent(transform);
-        Arrow arrow = arrowObject.GetComponent<Arrow>();
-        arrow.SetTargetPos(pos);
-    }
-
     public void SwitchState()
     {
-        Vector3 nextPos;
-        if (map.SwitchToNextMap(transform.position, out nextPos))
+        Vector3 curPos = transform.position;
+        Vector3 offset;
+        if (map.SwitchToNextMap(curPos, out offset))
         {
+            pMove.MoveTo(curPos + offset);
             pAnim.Switch();
-            pMove.MoveTo(nextPos);
+            pArrows.UpdatePos(offset);
+
+            lastSwitchTime = Time.time;
         }
         else
         {
             Debug.Log("Blocked by the wall.");
             // ShowDialog("Blocked by the wall.")
         }
-
-        lastSwitchTime = Time.time;
     }
 }
