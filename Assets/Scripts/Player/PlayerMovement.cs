@@ -18,6 +18,11 @@ public class PlayerMovement : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
     }
 
+    public void Init(Vector3 pos)
+    {
+        transform.position = pos;
+    }
+
     public void Move(Vector2 dir)
     {
         rb.velocity = new Vector2(dir.x * moveSpeed, dir.y * moveSpeed);
