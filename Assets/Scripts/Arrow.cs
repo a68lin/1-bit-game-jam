@@ -23,11 +23,17 @@ public class Arrow : MonoBehaviour
     [Range(1, 3)]
     public float scaleChangeRate;
 
+    private DialogManager dialog;
     private Vector3 targetPos;
 
     private void Awake()
     {
         gameObject.SetActive(false);
+    }
+
+    private void Start()
+    {
+        dialog = GameObject.FindWithTag("DialogManager").GetComponent<DialogManager>();
     }
 
     private void Update()
@@ -69,9 +75,7 @@ public class Arrow : MonoBehaviour
     {
         if (Vector3.Distance(transform.parent.position, targetPos) < destoryRange)
         {
-            // [TODO] Show a "SUCCESS" dialog
-            Debug.Log("Reached Destination");
-
+            dialog.ShowDialog("Reached target :)", 0.6f, 0.3f, 1);
             Destroy(transform.gameObject);
         }
     }

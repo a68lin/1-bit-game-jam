@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class PlayerAction : MonoBehaviour
 {
-    public DialogManager dialog;
 
     [Header("Switch")]
     [Range(0, 10)]
@@ -16,13 +15,16 @@ public class PlayerAction : MonoBehaviour
     private PlayerAnimation pAnim;
     private PlayerArrows pArrows;
     private MapEditor map;
+    private DialogManager dialog;
 
     private void Start()
     {
         pMove = GetComponent<PlayerMovement>();
         pAnim = GetComponent<PlayerAnimation>();
         pArrows = GetComponent<PlayerArrows>();
+
         map = GameObject.FindWithTag("Maps").GetComponent<MapEditor>();
+        dialog = GameObject.FindWithTag("DialogManager").GetComponent<DialogManager>();
 
         map.InitMapSets();
         Vector3 startPos = map.UseMapSet(0);
@@ -69,19 +71,19 @@ public class PlayerAction : MonoBehaviour
         }
         else
         {
-            dialog.ShowDialog("Blocked by the wall.", 1);
+            dialog.ShowDialog("Blocked by the wall.", 0.2f, 0.1f, 1);
         }
     }
 
     private void Save()
     {
-        dialog.ShowDialog("Save", 1);
+        dialog.ShowDialog("Save", 0.2f, 0.1f, 1);
         map.SetFlag(transform.position);
     }
 
     private void Load()
     {
-        dialog.ShowDialog("Load", 1);
+        dialog.ShowDialog("Load", 0.2f, 0.1f, 1);
         pMove.MoveTo(map.SwitchToFlag());
     }
 }
