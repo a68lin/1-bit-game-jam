@@ -4,8 +4,15 @@ using UnityEngine;
 
 public class Sign : MonoBehaviour
 {
+
     public string text;
     public bool isAnchor;
+
+    [Header("Text Settings")]
+    [Range(0, 10)]
+    public float appearTime;
+    [Range(0, 10)]
+    public float fadeTime;
 
     [Header("Fixed Assets")]
     public Sprite usedSignSprite;
@@ -16,17 +23,20 @@ public class Sign : MonoBehaviour
 
     private SpriteRenderer spriteRenderer;
     private MapEditor map;
+    private DialogManager dialog;
 
     private bool isTriggered;
     private bool detectPlayer = false;
 
-    private void Awake()
+    private void Start()
     {
         isTriggered = false;
 
         GameObject player = GameObject.FindWithTag("Player");
         pArrows = player.GetComponent<PlayerArrows>();
         pMove = player.GetComponent<PlayerMovement>();
+
+        dialog = GameObject.FindWithTag("DialogManager").GetComponent<DialogManager>();
 
         spriteRenderer = GetComponent<SpriteRenderer>();
         map = GameObject.FindWithTag("Maps").GetComponent<MapEditor>();
@@ -36,7 +46,14 @@ public class Sign : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.R) && detectPlayer)
         {
-            pMove.MoveTo(target.transform.position);
+            if (isAnchor)
+            {
+                pMove.MoveTo(target.transform.position);
+            }
+            else
+            {
+                dialog.ShowDialog(text, appearTime, fadeTime);
+            }
         }  
     }
 
@@ -44,17 +61,11 @@ public class Sign : MonoBehaviour
     {
         if (!other.CompareTag("Player")) return;
 
+        detectPlayer = true;
+
         if (transform.CompareTag("Destination"))
         {
-            // [TODO] Game success check
-            Debug.Log(text);
-
-            return;
-        }
-
-        if (isAnchor)
-        {
-            detectPlayer = true;
+            dialog.ShowDialog(text, appearTime, fadeTime);
             return;
         }
 
@@ -62,8 +73,7 @@ public class Sign : MonoBehaviour
         {
             isTriggered = true;
 
-            // [TODO] Show dialog
-            Debug.Log(text);
+            dialog.ShowDialog(text, appearTime, fadeTime);
 
             // Generate Arrow
             Vector3 targetPos = target.transform.position;
@@ -77,9 +87,6 @@ public class Sign : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D other)
     {
-        if (isAnchor)
-        {
-            detectPlayer = false;
-        }
+        detectPlayer = false;
     }
 }

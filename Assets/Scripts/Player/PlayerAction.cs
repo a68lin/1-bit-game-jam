@@ -5,23 +5,26 @@ using UnityEngine;
 
 public class PlayerAction : MonoBehaviour
 {
+
     [Header("Switch")]
     [Range(0, 10)]
     public float switchCD;
-    public DialogManager dialog;
     private float lastSwitchTime;
 
     private PlayerMovement pMove;
     private PlayerAnimation pAnim;
     private PlayerArrows pArrows;
     private MapEditor map;
+    private DialogManager dialog;
 
     private void Start()
     {
         pMove = GetComponent<PlayerMovement>();
         pAnim = GetComponent<PlayerAnimation>();
         pArrows = GetComponent<PlayerArrows>();
+
         map = GameObject.FindWithTag("Maps").GetComponent<MapEditor>();
+        dialog = GameObject.FindWithTag("DialogManager").GetComponent<DialogManager>();
 
         map.InitMapSets();
         Vector3 startPos = map.UseMapSet(0);
@@ -57,6 +60,7 @@ public class PlayerAction : MonoBehaviour
     {
         Vector3 curPos = transform.position;
         Vector3 offset;
+
         if (map.SwitchToNextMap(curPos, out offset))
         {
             pMove.MoveTo(curPos + offset);
@@ -67,20 +71,19 @@ public class PlayerAction : MonoBehaviour
         }
         else
         {
-            Debug.Log("Blocked by the wall.");
-            dialog.ShowDialog("Blocked by the wall.");
+            dialog.ShowDialog("Blocked by the wall.", 0.2f, 0.1f, 1);
         }
     }
 
     private void Save()
     {
-        Debug.Log("Save");
+        dialog.ShowDialog("Save", 0.2f, 0.1f, 1);
         map.SetFlag(transform.position);
     }
 
     private void Load()
     {
-        Debug.Log("Load");
+        dialog.ShowDialog("Load", 0.2f, 0.1f, 1);
         pMove.MoveTo(map.SwitchToFlag());
     }
 }

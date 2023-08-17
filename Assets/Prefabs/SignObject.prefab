@@ -207,6 +207,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2445e70905b027b4e9a7fa7465ee1611, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dialog: {fileID: 8440553794966055966, guid: bec5b58a345994a03a7ba8ee972296b8, type: 3}
   text: Hello
   isAnchor: 0
   usedSignSprite: {fileID: 21300000, guid: ee6634176136d534d8a3fd8a2c763d02, type: 3}
