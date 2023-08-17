@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Destination
   - Maps
+  - DialogManager
   layers:
   - Default
   - TransparentFX

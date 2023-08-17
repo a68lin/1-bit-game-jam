@@ -5,10 +5,11 @@ using UnityEngine;
 
 public class PlayerAction : MonoBehaviour
 {
+    public DialogManager dialog;
+
     [Header("Switch")]
     [Range(0, 10)]
     public float switchCD;
-    public DialogManager dialog;
     private float lastSwitchTime;
 
     private PlayerMovement pMove;
@@ -57,6 +58,7 @@ public class PlayerAction : MonoBehaviour
     {
         Vector3 curPos = transform.position;
         Vector3 offset;
+
         if (map.SwitchToNextMap(curPos, out offset))
         {
             pMove.MoveTo(curPos + offset);
@@ -67,20 +69,19 @@ public class PlayerAction : MonoBehaviour
         }
         else
         {
-            Debug.Log("Blocked by the wall.");
-            dialog.ShowDialog("Blocked by the wall.");
+            dialog.ShowDialog("Blocked by the wall.", 1);
         }
     }
 
     private void Save()
     {
-        Debug.Log("Save");
+        dialog.ShowDialog("Save", 1);
         map.SetFlag(transform.position);
     }
 
     private void Load()
     {
-        Debug.Log("Load");
+        dialog.ShowDialog("Load", 1);
         pMove.MoveTo(map.SwitchToFlag());
     }
 }
