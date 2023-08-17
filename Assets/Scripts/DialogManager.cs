@@ -49,10 +49,7 @@ public class DialogManager : MonoBehaviour
             if (dialog.message == null)
             {
                 toRemove.Add(dialog);
-<<<<<<< HEAD
                 continue;
-=======
->>>>>>> 14f17629601e9afa962097c8d452a6de63cda26b
             }
 
             Color color = dialog.message.color;
