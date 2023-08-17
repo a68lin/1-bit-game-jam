@@ -18,60 +18,55 @@ public class content
         this.fadeTime = timeFade;
         this.appearTime = timeAppear;
         this.message.text = info;
-        //this.message.color = Color.black;
-        //this.message.alignment = TextAnchor.UpperCenter;
-        //this.message.fontSize = 18;
-        //this.message.fontStyle = FontStyle.Bold;
-        //this.message.GetComponent<RectTransform>().anchoredPosition3D = position;
-        //this.message.GetComponent<RectTransform>().sizeDelta = new Vector2(1000, 50);
     }
 }
 
 public class DialogManager : MonoBehaviour
 {
     public GameObject[] canvas;
+
     [Header("Appear time")]
     [Range(0, 10)]
     public float appearTime;
+
     [Header("Fade time")]
     [Range(0, 10)]
     public float fadeTime;
-    private List<content> contents = new List<content>();
 
-    private void Start()
-    {
-    }
+    private List<content> contents = new List<content>();
 
     private void Update()
     {
         List<content> toRemove = new List<content>();
-        if (contents == null) return;
+
+        if (contents == null)
+        {
+            return;
+        }
+
         foreach (content dialog in contents)
         {
-            if (dialog.message != null)
-            {
-                Color color = dialog.message.color;
-                if (color.a > 0 && Time.time >= dialog.timeWhenDisappear)
-                {
-                    color.a -= Time.deltaTime / dialog.fadeTime;
-                    dialog.message.color = color;
-
-                }
-                if (color.a > 0 && Time.time >= dialog.timeWhenDisappear)
-                {
-                    if (dialog.image != null)
-                    {
-                        color = dialog.image.color;
-                        color.a -= Time.deltaTime / dialog.fadeTime;
-                        dialog.image.color = color;
-                    }
-                }
-            }
-            else
+            if (dialog.message == null)
             {
                 toRemove.Add(dialog);
             }
+
+            Color color = dialog.message.color;
+            if (color.a > 0 && Time.time >= dialog.timeWhenDisappear)
+            {
+                color.a -= Time.deltaTime / dialog.fadeTime;
+                dialog.message.color = color;
+
+            }
+
+            color = dialog.image.color;
+            if (color.a > 0 && Time.time >= dialog.timeWhenDisappear)
+            {
+                color.a -= Time.deltaTime / dialog.fadeTime;
+                dialog.image.color = color;
+            }
         }
+
         foreach(content dialog in toRemove)
         {
             contents.Remove(dialog);
@@ -82,7 +77,11 @@ public class DialogManager : MonoBehaviour
     {
         GameObject copy = Instantiate<GameObject>(canvas[index], transform.position, Quaternion.identity);
 
-        contents.Add(new content(copy.GetComponentInChildren<Text>(), copy.GetComponentInChildren<Image>(), text, timeAppear, timeFade));
+        contents.Add(
+            new content(
+                copy.GetComponentInChildren<Text>(), 
+                copy.GetComponentInChildren<Image>(), 
+                text, timeAppear, timeFade));
 
         Destroy(copy, timeAppear + timeFade);
     }
@@ -91,7 +90,10 @@ public class DialogManager : MonoBehaviour
     {
         GameObject copy = Instantiate<GameObject>(canvas[index], transform.position, Quaternion.identity);
 
-        contents.Add(new content(copy.GetComponentInChildren<Text>(), copy.GetComponentInChildren<Image>(), text, appearTime, fadeTime));
+        contents.Add(
+            new content(copy.GetComponentInChildren<Text>(),
+                        copy.GetComponentInChildren<Image>(),
+                        text, appearTime, fadeTime));
 
         Destroy(copy, appearTime + fadeTime);
     }

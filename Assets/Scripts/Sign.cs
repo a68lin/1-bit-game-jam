@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Sign : MonoBehaviour
 {
+    public DialogManager dialog;
+
     public string text;
     public bool isAnchor;
 
@@ -20,7 +22,7 @@ public class Sign : MonoBehaviour
     private bool isTriggered;
     private bool detectPlayer = false;
 
-    private void Awake()
+    private void Start()
     {
         isTriggered = false;
 
@@ -46,9 +48,7 @@ public class Sign : MonoBehaviour
 
         if (transform.CompareTag("Destination"))
         {
-            // [TODO] Game success check
-            Debug.Log(text);
-
+            dialog.ShowDialog(text);
             return;
         }
 
@@ -62,8 +62,7 @@ public class Sign : MonoBehaviour
         {
             isTriggered = true;
 
-            // [TODO] Show dialog
-            Debug.Log(text);
+            dialog.ShowDialog(text);
 
             // Generate Arrow
             Vector3 targetPos = target.transform.position;
