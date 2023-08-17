@@ -207,9 +207,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2445e70905b027b4e9a7fa7465ee1611, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dialog: {fileID: 8440553794966055966, guid: bec5b58a345994a03a7ba8ee972296b8, type: 3}
   text: Hello
   isAnchor: 0
+  appearTime: 1
+  fadeTime: 0.5
   usedSignSprite: {fileID: 21300000, guid: ee6634176136d534d8a3fd8a2c763d02, type: 3}
   target: {fileID: 5849271960010510106}
 --- !u!1001 &5933271085526965735
@@ -278,8 +279,16 @@ PrefabInstance:
     m_TransformParent: {fileID: 4691242305018817685}
     m_Modifications:
     - target: {fileID: 200509758602202417, guid: 6a06550ac7cba16489618206ec0a199c, type: 3}
+      propertyPath: fadeTime
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 200509758602202417, guid: 6a06550ac7cba16489618206ec0a199c, type: 3}
       propertyPath: isAnchor
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 200509758602202417, guid: 6a06550ac7cba16489618206ec0a199c, type: 3}
+      propertyPath: appearTime
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1446772006236010091, guid: 6a06550ac7cba16489618206ec0a199c, type: 3}
       propertyPath: m_Name

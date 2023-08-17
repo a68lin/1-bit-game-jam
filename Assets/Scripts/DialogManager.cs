@@ -76,15 +76,18 @@ public class DialogManager : MonoBehaviour
 
     public void ShowDialog(string text, float timeAppear, float timeFade, int index = 0)
     {
-        GameObject copy = Instantiate<GameObject>(canvas[index], transform.position, Quaternion.identity);
+        if (text != "")
+        {
+            GameObject copy = Instantiate<GameObject>(canvas[index], transform.position, Quaternion.identity);
 
-        contents.Add(
-            new content(
-                copy.GetComponentInChildren<Text>(), 
-                copy.GetComponentInChildren<Image>(), 
-                text, timeAppear, timeFade));
+            contents.Add(
+                new content(
+                    copy.GetComponentInChildren<Text>(),
+                    copy.GetComponentInChildren<Image>(),
+                    text, timeAppear, timeFade));
 
-        Destroy(copy, timeAppear + timeFade);
+            Destroy(copy, timeAppear + timeFade);
+        }
     }
 
     public void ShowDialog(string text, int index = 0)

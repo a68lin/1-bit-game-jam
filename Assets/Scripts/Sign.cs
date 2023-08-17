@@ -76,12 +76,20 @@ public class Sign : MonoBehaviour
             dialog.ShowDialog(text, appearTime, fadeTime);
 
             // Generate Arrow
-            Vector3 targetPos = target.transform.position;
-            pArrows.GenerateArrow(targetPos);
-            map.DestroyWall(targetPos);
-
+            if (target.transform.position != transform.position)
+            {
+                Vector3 targetPos = target.transform.position;
+                pArrows.GenerateArrow(targetPos);
+                map.DestroyWall(targetPos);
+            }
+            
             // Set <Used>
             spriteRenderer.sprite = usedSignSprite;
+        }
+
+        if (isAnchor) 
+        {
+            dialog.ShowDialog("Press R to teleport", appearTime, fadeTime, 1); 
         }
     }
 

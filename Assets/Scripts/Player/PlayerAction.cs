@@ -83,7 +83,15 @@ public class PlayerAction : MonoBehaviour
 
     private void Load()
     {
-        dialog.ShowDialog("Load", 0.2f, 0.1f, 1);
-        pMove.MoveTo(map.SwitchToFlag());
+        if (map.HasFlag())
+        {
+            dialog.ShowDialog("Load", 0.2f, 0.1f, 1);
+            pMove.MoveTo(map.SwitchToFlag());
+        }
+        else
+        {
+            dialog.ShowDialog("Havn't Saved", 0.2f, 0.1f, 1);
+        }
+        
     }
 }

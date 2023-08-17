@@ -135,6 +135,11 @@ public class MapEditor : MonoBehaviour
         flagMapIndex = currentMapIndex;
     }
 
+    public bool HasFlag()
+    {
+        return flag != null;
+    }
+
     public Vector3 SwitchToFlag()
     {
         currentMapIndex = flagMapIndex;
