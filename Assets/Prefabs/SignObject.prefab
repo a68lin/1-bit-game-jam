@@ -208,6 +208,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   text: Hello
+  isAnchor: 0
   usedSignSprite: {fileID: 21300000, guid: ee6634176136d534d8a3fd8a2c763d02, type: 3}
   target: {fileID: 5849271960010510106}
 --- !u!1001 &5933271085526965735
@@ -275,6 +276,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 4691242305018817685}
     m_Modifications:
+    - target: {fileID: 200509758602202417, guid: 6a06550ac7cba16489618206ec0a199c, type: 3}
+      propertyPath: isAnchor
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1446772006236010091, guid: 6a06550ac7cba16489618206ec0a199c, type: 3}
       propertyPath: m_Name
       value: Sign
