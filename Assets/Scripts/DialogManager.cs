@@ -78,7 +78,7 @@ public class DialogManager : MonoBehaviour
         }
     }
 
-    public void ShowDialog(string text, int index, float timeAppear, float timeFade)
+    public void ShowDialog(string text, float timeAppear, float timeFade, int index = 0)
     {
         GameObject copy = Instantiate<GameObject>(canvas[index], transform.position, Quaternion.identity);
 
@@ -87,7 +87,7 @@ public class DialogManager : MonoBehaviour
         Destroy(copy, timeAppear + timeFade);
     }
 
-    public void ShowDialog(string text, int index)
+    public void ShowDialog(string text, int index = 0)
     {
         GameObject copy = Instantiate<GameObject>(canvas[index], transform.position, Quaternion.identity);
 
