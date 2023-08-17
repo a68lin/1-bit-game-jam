@@ -12,6 +12,7 @@ public class Sign : MonoBehaviour
 
     private PlayerArrows pArrows; 
     private SpriteRenderer spriteRenderer;
+    private MapEditor map;
 
     private bool isTriggered;
 
@@ -21,6 +22,7 @@ public class Sign : MonoBehaviour
 
         pArrows = GameObject.FindWithTag("Player").GetComponent<PlayerArrows>();
         spriteRenderer = GetComponent<SpriteRenderer>();
+        map = GameObject.FindWithTag("Maps").GetComponent<MapEditor>();
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -43,6 +45,7 @@ public class Sign : MonoBehaviour
             // Generate Arrow
             Vector3 targetPos = target.transform.position;
             pArrows.GenerateArrow(targetPos);
+            map.DestroyWall(targetPos);
 
             // Set <Used>
             spriteRenderer.sprite = usedSignSprite;
