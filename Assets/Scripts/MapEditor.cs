@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -50,6 +51,11 @@ public class MapEditor : MonoBehaviour
     private int currentMapIndex = 0;
     private int currentSetIndex;
 
+    // Flag
+    public GameObject flagPrefab;
+    private GameObject flag;
+    private int flagMapIndex;
+
     private void Awake()
     {
         mapModelSet = new List<MapModelSet>();
@@ -61,7 +67,7 @@ public class MapEditor : MonoBehaviour
         List<MapModel> set0 = new List<MapModel>();
         set0.Add(new MapModel("LightMap", baseTilemaps[0], baseTiles[0], Vector3.zero, defaultOffset));
         set0.Add(new MapModel("DarkMap", baseTilemaps[1], baseTiles[1], defaultOffset, -defaultOffset));
-        mapModelSet.Add(new MapModelSet(set0, new Vector3(22, 1, 0)));
+        mapModelSet.Add(new MapModelSet(set0, new Vector3((float)105.5, (float)1.4, 0)));
     }
 
     public Vector3 UseMapSet(int index)
@@ -102,6 +108,37 @@ public class MapEditor : MonoBehaviour
         }
 
         return false;
+    }
+
+    public void DestroyWall(Vector3 targetPos)
+    {
+        List<MapModel> mapModels = mapModelSet[currentSetIndex].mapModels;
+        for (int i = 0; i < mapModels.Count; i++)
+        {
+            MapModel currentMapModel = mapModels[i];
+            Tilemap currentMap = tilemapSet[i];
+            currentMap.SetTile(currentMap.WorldToCell(targetPos + currentMapModel.offsetFromOrigin), null);
+        }
+    }
+
+    public void SetFlag(Vector3 pos)
+    {
+        if (flag == null)
+        {
+            flag = Instantiate(flagPrefab, pos, Quaternion.identity);
+        }
+        else
+        {
+            flag.transform.position = pos;
+        }
+
+        flagMapIndex = currentMapIndex;
+    }
+
+    public Vector3 SwitchToFlag()
+    {
+        currentMapIndex = flagMapIndex;
+        return flag.transform.position;
     }
 
     private Tilemap MapModelToTilemap(MapModel model)

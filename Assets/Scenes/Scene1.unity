@@ -136,8 +136,8 @@ GameObject:
   - component: {fileID: 269992112}
   - component: {fileID: 269992105}
   - component: {fileID: 269992109}
-  - component: {fileID: 269992110}
   - component: {fileID: 269992111}
+  - component: {fileID: 269992110}
   - component: {fileID: 269992113}
   - component: {fileID: 269992114}
   m_Layer: 3
@@ -513,13 +513,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5cd26ccbef32ad843adbb5f1263ce1f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  defaultOffset: {x: 50, y: 0, z: 0}
+  defaultOffset: {x: 500, y: 500, z: 0}
   baseTilemaps:
   - {fileID: 19462922241750071, guid: 75cbb8885e00531409ab67b77bb53aa4, type: 3}
-  - {fileID: 19462922241750071, guid: 09ac2f8381e5d894cb080bc881b25ef7, type: 3}
+  - {fileID: 19462922241750071, guid: df56e21d98ab4f54ba0af7d3d6748634, type: 3}
   baseTiles:
   - {fileID: 11400000, guid: 5433e6e5e9973d744a11b01f2760070e, type: 2}
   - {fileID: 11400000, guid: 81052d339335c554ba1ce05cdce3139f, type: 2}
+  flagPrefab: {fileID: 4447899799287463543, guid: 899cf5a11291f0a42997305d8e013e33, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

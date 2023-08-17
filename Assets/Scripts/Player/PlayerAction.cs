@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 public class PlayerAction : MonoBehaviour
@@ -33,6 +34,15 @@ public class PlayerAction : MonoBehaviour
         {
             SwitchState();
         }
+
+        if (Input.GetKeyDown(KeyCode.Q)) {
+            Save();
+        }
+
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            Load();
+        }
     }
 
     private void FixedUpdate()
@@ -43,7 +53,7 @@ public class PlayerAction : MonoBehaviour
         pMove.Move(new Vector2(moveX, moveY).normalized);
     }
 
-    public void SwitchState()
+    private void SwitchState()
     {
         Vector3 curPos = transform.position;
         Vector3 offset;
@@ -60,5 +70,17 @@ public class PlayerAction : MonoBehaviour
             Debug.Log("Blocked by the wall.");
             dialog.ShowDialog("Blocked by the wall.");
         }
+    }
+
+    private void Save()
+    {
+        Debug.Log("Save");
+        map.SetFlag(transform.position);
+    }
+
+    private void Load()
+    {
+        Debug.Log("Load");
+        pMove.MoveTo(map.SwitchToFlag());
     }
 }
