@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -107,6 +108,17 @@ public class MapEditor : MonoBehaviour
         }
 
         return false;
+    }
+
+    public void DestroyWall(Vector3 targetPos)
+    {
+        List<MapModel> mapModels = mapModelSet[currentSetIndex].mapModels;
+        for (int i = 0; i < mapModels.Count; i++)
+        {
+            MapModel currentMapModel = mapModels[i];
+            Tilemap currentMap = tilemapSet[i];
+            currentMap.SetTile(currentMap.WorldToCell(targetPos + currentMapModel.offsetFromOrigin), null);
+        }
     }
 
     public void SetFlag(Vector3 pos)
