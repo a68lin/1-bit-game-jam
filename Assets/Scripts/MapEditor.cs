@@ -113,12 +113,17 @@ public class MapEditor : MonoBehaviour
     public void DestroyWall(Vector3 targetPos)
     {
         List<MapModel> mapModels = mapModelSet[currentSetIndex].mapModels;
+
         Vector3 offset = targetPos;
+        int mapIndex = currentMapIndex;
+
         for (int i = 0; i < mapModels.Count; i++)
         {
-            Tilemap currentMap = tilemapSet[i];
-            offset += mapModels[i].offsetToNextMap;
+            Tilemap currentMap = tilemapSet[mapIndex];
             currentMap.SetTile(currentMap.WorldToCell(offset), null);
+
+            offset += mapModels[mapIndex].offsetToNextMap;
+            mapIndex = (mapIndex + 1) % mapModels.Count;
         }
     }
 
