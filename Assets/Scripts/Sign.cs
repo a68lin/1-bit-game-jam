@@ -24,6 +24,8 @@ public class Sign : MonoBehaviour
     private SpriteRenderer spriteRenderer;
     private MapEditor map;
     private DialogManager dialog;
+    
+    private GameController gameController;
 
     private bool isTriggered;
     private bool detectPlayer = false;
@@ -40,6 +42,8 @@ public class Sign : MonoBehaviour
 
         spriteRenderer = GetComponent<SpriteRenderer>();
         map = GameObject.FindWithTag("Maps").GetComponent<MapEditor>();
+
+        gameController = GameObject.FindWithTag("GameController").GetComponent<GameController>();
     }
 
     private void Update()
@@ -66,6 +70,7 @@ public class Sign : MonoBehaviour
         if (transform.CompareTag("Destination"))
         {
             dialog.ShowDialog(text, appearTime, fadeTime);
+            gameController.endGame();
             return;
         }
 
