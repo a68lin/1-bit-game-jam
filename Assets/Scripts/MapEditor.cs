@@ -11,15 +11,13 @@ public class MapModel
     public string name;
     public Tilemap map;
     public TileBase tile;
-    public Vector3 offsetFromOrigin;
     public Vector3 offsetToNextMap;
 
-    public MapModel(string name, Tilemap map, TileBase tile, Vector3 offsetFromOrigin, Vector3 offsetToNextMap)
+    public MapModel(string name, Tilemap map, TileBase tile, Vector3 offsetToNextMap)
     {
         this.name = name;
         this.map = map;
         this.tile = tile;
-        this.offsetFromOrigin = offsetFromOrigin;
         this.offsetToNextMap = offsetToNextMap;
     }
 }
@@ -65,8 +63,8 @@ public class MapEditor : MonoBehaviour
     public void InitMapSets()
     {
         List<MapModel> set0 = new List<MapModel>();
-        set0.Add(new MapModel("LightMap", baseTilemaps[0], baseTiles[0], Vector3.zero, defaultOffset));
-        set0.Add(new MapModel("DarkMap", baseTilemaps[1], baseTiles[1], defaultOffset, -defaultOffset));
+        set0.Add(new MapModel("LightMap", baseTilemaps[0], baseTiles[0], defaultOffset));
+        set0.Add(new MapModel("DarkMap", baseTilemaps[1], baseTiles[1], -defaultOffset));
         mapModelSet.Add(new MapModelSet(set0, new Vector3((float)105.5, (float)1.4, 0)));
     }
 
@@ -81,11 +79,13 @@ public class MapEditor : MonoBehaviour
 
         // Use appropriate map set
         currentSetIndex = index;
+        Vector3 pos = Vector3.zero;
         foreach (MapModel model in mapModelSet[index].mapModels)
         {
             Tilemap tmp = MapModelToTilemap(model);
             tmp.transform.parent = transform;
-            tmp.transform.position += model.offsetFromOrigin;
+            tmp.transform.position += pos;
+            pos += model.offsetToNextMap;
             tmp.name = model.name;
             tilemapSet.Add(tmp);
         }
@@ -113,11 +113,12 @@ public class MapEditor : MonoBehaviour
     public void DestroyWall(Vector3 targetPos)
     {
         List<MapModel> mapModels = mapModelSet[currentSetIndex].mapModels;
+        Vector3 offset = targetPos;
         for (int i = 0; i < mapModels.Count; i++)
         {
-            MapModel currentMapModel = mapModels[i];
             Tilemap currentMap = tilemapSet[i];
-            currentMap.SetTile(currentMap.WorldToCell(targetPos + currentMapModel.offsetFromOrigin), null);
+            offset += mapModels[i].offsetToNextMap;
+            currentMap.SetTile(currentMap.WorldToCell(offset), null);
         }
     }
 
