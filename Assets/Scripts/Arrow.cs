@@ -75,7 +75,7 @@ public class Arrow : MonoBehaviour
     {
         if (Vector3.Distance(transform.parent.position, targetPos) < destoryRange)
         {
-            dialog.ShowDialog("Reached target :)", 0.6f, 0.3f, 1);
+            dialog.ShowDialog("Reached target :)", 1f, 0.5f, 1);
             Destroy(transform.gameObject);
         }
     }
